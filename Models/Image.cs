@@ -9,6 +9,6 @@ namespace Projektuppgift.Models
 
         [ForeignKey("Car")]
         public int CarId { get; set; }
-        public Car Car { get; set; }
+        public CarRental Car { get; set; }
     }
 }

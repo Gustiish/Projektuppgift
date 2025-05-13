@@ -5,12 +5,12 @@ namespace Projektuppgift.Data
     public interface IAdmin
     {
 
-        IEnumerable<Car> GetCars();
+        IEnumerable<CarRental> GetCars();
 
-        void AddCar(Car car);
-        void RemoveCar(Car car);
-        void UpdateCar(Car car);
-        Car GetCarById(int carId);
+        void AddCar(CarRental car);
+        void RemoveCar(CarRental car);
+        void UpdateCar(CarRental car);
+        CarRental GetCarById(int carId);
 
         IEnumerable<Customer> GetCustomers();
         void AddCustomer(Customer customer);

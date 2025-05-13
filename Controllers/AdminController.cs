@@ -1,4 +1,6 @@
-﻿using Projektuppgift.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Projektuppgift.Data;
 
 namespace Projektuppgift.Controllers
 {
@@ -13,7 +15,10 @@ namespace Projektuppgift.Controllers
             this.context = context;
         }
 
-
+        public ActionResult Index()
+        {
+            throw new NotImplementedException();
+        }
 
 
 

@@ -1,11 +1,10 @@
 ﻿namespace Projektuppgift.Models
 {
-    public class Customer
+    public class Customer : User
     {
         public int CustomerId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
+        
+        public override bool IsAdmin { get { return false; } }
 
     }
 }

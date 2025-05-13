@@ -4,9 +4,9 @@ namespace Projektuppgift.Data
 {
     public interface ICustomer
     {
-        IEnumerable<Car> GetCars();
-        IEnumerable<Image> ShowPictures(Car car);
-        CustomerOrder CreateBooking(Car car, DateTime startDate, DateTime endDate);
+        IEnumerable<CarRental> GetCars();
+        IEnumerable<Image> ShowPictures(CarRental car);
+        CustomerOrder CreateBooking(CarRental car, DateTime startDate, DateTime endDate);
 
         IEnumerable<CustomerOrder> GetOrders();
         void RemoveOrder (CustomerOrder order);

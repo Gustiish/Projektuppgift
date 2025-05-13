@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Login";
+
+}
+
+<h1>Login</h1>
+
+<p>Here you can login to your customer account or admin account</p>
+
+<div class="container text-center">
+
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Login
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Email (textbox here)</li>
+                    <li class="list-group-item">Password (textbox here)</li>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Register
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Email (textbox here)</li>
+                    <li class="list-group-item">Password</li>
+                    <li class="list-group-item">Confirm password</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <button class="btn btn-success w-100" asp-action="Login">Login</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-success w-100" asp-action="Register">Register</button>
+        </div>
+    </div>
+
+</div>

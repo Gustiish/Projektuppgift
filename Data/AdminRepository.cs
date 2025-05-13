@@ -10,7 +10,7 @@ namespace Projektuppgift.Data
         {
             _context = applicationDbContext;
         }
-        public void AddCar(Car car)
+        public void AddCar(CarRental car)
         {
             _context.Cars.Add(car);
             _context.SaveChanges();
@@ -29,14 +29,14 @@ namespace Projektuppgift.Data
             _context.SaveChanges();
         }
 
-        public Car GetCarById(int carId)
+        public CarRental GetCarById(int carId)
         {
-            return _context.Cars.FirstOrDefault(x => x.CarId == carId);
+            return _context.Cars.FirstOrDefault(x => x.CarRentalId == carId);
         }
 
-        public IEnumerable<Car> GetCars()
+        public IEnumerable<CarRental> GetCars()
         {
-            return _context.Cars.OrderBy(c => c.CarId);
+            return _context.Cars.OrderBy(c => c.CarRentalId);
         }
 
         public Customer GetCustomerById(int customerId)
@@ -55,7 +55,7 @@ namespace Projektuppgift.Data
         }
 
 
-        public void RemoveCar(Car car)
+        public void RemoveCar(CarRental car)
         {
             
             _context.Cars.Remove(car);
@@ -72,7 +72,7 @@ namespace Projektuppgift.Data
 
 
 
-        public void UpdateCar(Car car)
+        public void UpdateCar(CarRental car)
         {
             _context.Cars.Update(car);
             _context.SaveChanges();

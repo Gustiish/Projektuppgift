@@ -1,8 +1,8 @@
 ﻿namespace Projektuppgift.Models
 {
-    public class Car
+    public class CarRental
     {
-        public int CarId { get; set; }
+        public int CarRentalId { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
 
