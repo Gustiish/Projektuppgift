@@ -1,8 +1,9 @@
-﻿using Projektuppgift.Models;
+﻿using Microsoft.VisualStudio.Web.CodeGeneration;
+using Projektuppgift.Models;
 
 namespace Projektuppgift.Data
 {
-    public class AdminRepository : IAdmin
+    public class AdminRepository : IGenericRepository<Admin>
     {
         private readonly ApplicationDbContext _context;
 
@@ -10,79 +11,49 @@ namespace Projektuppgift.Data
         {
             _context = applicationDbContext;
         }
-        public void AddCar(CarRental car)
+
+        public void Add(Admin entity)
         {
-            _context.Cars.Add(car);
-            _context.SaveChanges();
+            try
+            {
+                _context.Admins.Add(entity);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
         }
 
-        public void AddCustomer(Customer customer)
+        public bool Delete(Admin entity)
         {
-            _context.Customers.Add(customer);
-            _context.SaveChanges();
+            try
+            {
+                _context.Admins.Remove(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
-
-        public void DeleteOrder(CustomerOrder customerOrder)
+        public IEnumerable<Admin> GetAll()
         {
-            _context.CustomerOrders.Remove(customerOrder);
-            _context.SaveChanges();
+            return _context.Admins.OrderBy(a => a.AdminId);
         }
 
-        public CarRental GetCarById(int carId)
+        public Admin GetByID(int id)
         {
-            return _context.Cars.FirstOrDefault(x => x.CarRentalId == carId);
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<CarRental> GetCars()
+        public void Update(Admin entity)
         {
-            return _context.Cars.OrderBy(c => c.CarRentalId);
-        }
-
-        public Customer GetCustomerById(int customerId)
-        {
-            return _context.Customers.FirstOrDefault(c => c.CustomerId == customerId);
-        }
-
-        public IEnumerable<Customer> GetCustomers()
-        {
-            return _context.Customers.OrderBy(c => c.CustomerId);
-        }
-
-        public IEnumerable<CustomerOrder> GetOrders()
-        {
-            return _context.CustomerOrders.OrderBy(co => co.customerOrderId);
-        }
-
-
-        public void RemoveCar(CarRental car)
-        {
-            
-            _context.Cars.Remove(car);
-            _context.SaveChanges();
-        }
-
-
-
-        public void RemoveCustomer(Customer customer)
-        {
-            _context.Customers.Remove(customer);
-            _context.SaveChanges();
-        }
-
-
-
-        public void UpdateCar(CarRental car)
-        {
-            _context.Cars.Update(car);
-            _context.SaveChanges();
-        }
-
-
-        public void UpdateCustomer(Customer customer)
-        {
-            _context.Customers.Update(customer);
-            _context.SaveChanges();
+            throw new NotImplementedException();
         }
     }
 }
