@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Projektuppgift.Data;
+using System.Configuration;
+
 namespace Projektuppgift
 {
     public class Program
@@ -6,8 +10,13 @@ namespace Projektuppgift
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options
+                .UseSqlServer(builder.Configuration.GetConnectionString("ProjektUppgift")));
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IAdmin, AdminRepository>();
 
             var app = builder.Build();
 
