@@ -58,8 +58,9 @@ namespace Projektuppgift.Controllers
 
         public ActionResult DisplayCustomers()
         {
-            IEnumerable<Customer> customerData = customer.GetAll();
-            return View(customerData);
+            IEnumerable<Customer> customers = customer.GetAll();
+            
+            return View(customers);
         }
 
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projektuppgift.Data;
 
@@ -11,9 +12,11 @@ using Projektuppgift.Data;
 namespace Projektuppgift.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250514185650_removed IsLoggedIn from mapping")]
+    partial class removedIsLoggedInfrommapping
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +66,6 @@ namespace Projektuppgift.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerOrderId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsBooked")
                         .HasColumnType("bit");
 
@@ -74,10 +74,6 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerOrderId")
-                        .IsUnique()
-                        .HasFilter("[CustomerOrderId] IS NOT NULL");
 
                     b.ToTable("Cars");
                 });
@@ -89,9 +85,6 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CustomerOrderId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -111,10 +104,6 @@ namespace Projektuppgift.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerOrderId")
-                        .IsUnique()
-                        .HasFilter("[CustomerOrderId] IS NOT NULL");
-
                     b.ToTable("Customers");
                 });
 
@@ -126,7 +115,7 @@ namespace Projektuppgift.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarRentalId")
+                    b.Property<int>("CarId")
                         .HasColumnType("int");
 
                     b.Property<int>("CustomerId")
@@ -139,6 +128,10 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("CustomerOrders");
                 });
@@ -165,22 +158,23 @@ namespace Projektuppgift.Migrations
                     b.ToTable("Image");
                 });
 
-            modelBuilder.Entity("Projektuppgift.Models.CarRental", b =>
+            modelBuilder.Entity("Projektuppgift.Models.CustomerOrder", b =>
                 {
-                    b.HasOne("Projektuppgift.Models.CustomerOrder", "CustomerOrder")
-                        .WithOne("Car")
-                        .HasForeignKey("Projektuppgift.Models.CarRental", "CustomerOrderId");
+                    b.HasOne("Projektuppgift.Models.CarRental", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("CustomerOrder");
-                });
+                    b.HasOne("Projektuppgift.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Projektuppgift.Models.Customer", b =>
-                {
-                    b.HasOne("Projektuppgift.Models.CustomerOrder", "CustomerOrder")
-                        .WithOne("Customer")
-                        .HasForeignKey("Projektuppgift.Models.Customer", "CustomerOrderId");
+                    b.Navigation("Car");
 
-                    b.Navigation("CustomerOrder");
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Projektuppgift.Models.Image", b =>
@@ -197,15 +191,6 @@ namespace Projektuppgift.Migrations
             modelBuilder.Entity("Projektuppgift.Models.CarRental", b =>
                 {
                     b.Navigation("Image");
-                });
-
-            modelBuilder.Entity("Projektuppgift.Models.CustomerOrder", b =>
-                {
-                    b.Navigation("Car")
-                        .IsRequired();
-
-                    b.Navigation("Customer")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

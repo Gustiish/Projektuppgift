@@ -1,4 +1,5 @@
 ﻿using Projektuppgift.Models.AbstractModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Projektuppgift.Models
 {
@@ -8,6 +9,8 @@ namespace Projektuppgift.Models
 
         public override bool IsAdmin { get { return true; } }
 
-        
+       
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Projektuppgift.Models.AbstractModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Projektuppgift.Models;
 
@@ -10,4 +11,7 @@ public class CarRental: IEntity
 
     public bool IsBooked { get; set; }
     public List<Image> Image { get; set; }
+    public CustomerOrder? CustomerOrder { get; set; }
+    [ForeignKey("CustomerOrder")]
+    public int? CustomerOrderId { get; set; }
 }
