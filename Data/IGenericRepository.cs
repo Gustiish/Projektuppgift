@@ -1,6 +1,8 @@
-﻿namespace Projektuppgift.Data
+﻿using Projektuppgift.Models.AbstractModels;
+
+namespace Projektuppgift.Data
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class, IEntity
     {
         //List
         IEnumerable<T> GetAll();

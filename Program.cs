@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Projektuppgift.Data;
 using System.Configuration;
 using Projektuppgift.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Projektuppgift
 {
@@ -17,8 +18,8 @@ namespace Projektuppgift
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IGenericRepository<Admin>, AdminRepository>();
-            builder.Services.AddScoped<IGenericRepository<CarRental>, CarRepository>();
+            //Generell metod för att lägga till repos.
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             var app = builder.Build();
 

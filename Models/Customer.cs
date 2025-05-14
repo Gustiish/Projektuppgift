@@ -1,8 +1,10 @@
-﻿namespace Projektuppgift.Models
+﻿using Projektuppgift.Models.AbstractModels;
+
+namespace Projektuppgift.Models
 {
-    public class Customer : User
+    public class Customer : User, IEntity
     {
-        public int CustomerId { get; set; }
+        public int Id { get; set; }
         
         public override bool IsAdmin { get { return false; } }
 

@@ -1,12 +1,13 @@
-﻿namespace Projektuppgift.Models
-{
-    public class CarRental
-    {
-        public int CarRentalId { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
+﻿using Projektuppgift.Models.AbstractModels;
 
-        public bool IsBooked { get; set; }
-        public List<Image> Image { get; set; }
-    }
+namespace Projektuppgift.Models;
+
+public class CarRental: IEntity
+{
+    public int Id { get; set; }
+    public string Brand { get; set; }
+    public string Model { get; set; }
+
+    public bool IsBooked { get; set; }
+    public List<Image> Image { get; set; }
 }

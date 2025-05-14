@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Login</h1>
+
+<p>Here you can login to your admin account, as of now new admins cannot be registered. </p>
+
+<div class="container text-center">
+    <form asp-action="Login" method="post">
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+
+                    <div class="card-header">
+                        Login
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><input type="text" name="email" value="Email" /></li>
+                        <li class="list-group-item"><input type="text" name="password" value="Password"/></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <button class="btn btn-success w-100" type="submit" asp-action="Login" asp-controller="Admin">Login</button>
+            </div>
+    </form>
+</div>
+
+</div>
