@@ -13,7 +13,7 @@ namespace Projektuppgift.Data
         //Update    
         void Update(T entity);
         //Delete
-        bool Delete(T entity);
+        void Delete(T entity);
 
 
 

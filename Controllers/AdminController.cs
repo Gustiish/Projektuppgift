@@ -8,17 +8,11 @@ namespace Projektuppgift.Controllers
     public class AdminController : Controller
     {
         private readonly IGenericRepository<Admin> admin;
-        private readonly IGenericRepository<Customer> customer;
-        private readonly IGenericRepository<CarRental> cars;
-        private readonly IGenericRepository<CustomerOrder> orders;
         private readonly ApplicationDbContext context;
 
         public AdminController(IGenericRepository<Admin> admin, ApplicationDbContext context, IGenericRepository<Customer> customer, IGenericRepository<CarRental> cars, IGenericRepository<CustomerOrder> orders)
         {
             this.admin = admin;
-            this.customer = customer;
-            this.cars = cars;
-            this.orders = orders;
             this.context = context;
         }
 
@@ -56,12 +50,9 @@ namespace Projektuppgift.Controllers
             return View();
         }
 
-        public ActionResult DisplayCustomers()
-        {
-            IEnumerable<Customer> customers = customer.GetAll();
-            
-            return View(customers);
-        }
+
+
+
 
 
 

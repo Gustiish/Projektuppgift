@@ -26,22 +26,22 @@ namespace Projektuppgift.Data
             }
         }
 
-        public bool Delete(T entity)
+        public void Delete(T entity)
         {
             try
             {
                 _dbSet.Remove(entity);
                 _context.SaveChanges();
-                return true;
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+
             }
         }
 
-        public IEnumerable<T> GetAll() 
+        public IEnumerable<T> GetAll()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Projektuppgift.Data
                 Console.WriteLine(ex.Message);
                 return Enumerable.Empty<T>();
             }
-           
+
         }
 
         public T GetByID(int id)
@@ -66,7 +66,7 @@ namespace Projektuppgift.Data
                 Console.WriteLine(ex.Message);
                 return null;
             }
-            
+
         }
 
         public void Update(T entity)
