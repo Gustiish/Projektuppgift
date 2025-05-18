@@ -16,7 +16,7 @@ namespace Projektuppgift.Controllers
 
 
         // GET: AdminCustomerController
-        public ActionResult DisplayCustomer()
+        public ActionResult DisplayCustomers()
         {
             return View(repo.GetAll());
         }
@@ -44,11 +44,11 @@ namespace Projektuppgift.Controllers
                 {
                     repo.Add(customer);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DisplayCustomers");
             }
             catch
             {
-                return View();
+                return View(customer);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Projektuppgift.Controllers
 
 
                 repo.Update(customerId);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DisplayCustomers");
 
             }
             catch
