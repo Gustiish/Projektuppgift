@@ -10,7 +10,7 @@ namespace Projektuppgift.Controllers
         private readonly IGenericRepository<Admin> admin;
         private readonly ApplicationDbContext context;
 
-        public AdminController(IGenericRepository<Admin> admin, ApplicationDbContext context, IGenericRepository<Customer> customer, IGenericRepository<CarRental> cars, IGenericRepository<CustomerOrder> orders)
+        public AdminController(IGenericRepository<Admin> admin, ApplicationDbContext context)
         {
             this.admin = admin;
             this.context = context;

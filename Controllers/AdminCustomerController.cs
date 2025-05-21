@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Projektuppgift.Data;
 using Projektuppgift.Models;
+using Projektuppgift.ViewModels;
 
 namespace Projektuppgift.Controllers
 {
@@ -55,31 +57,51 @@ namespace Projektuppgift.Controllers
         // GET: AdminCustomerController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View(repo.GetByID(id));
+            if (id == null || repo.GetAll().IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
+
+
+
+            CustomerEditViewModel customerVM = new CustomerEditViewModel();
+            customerVM.FirstName = repo.GetByID(id).FirstName;
+            customerVM.LastName = repo.GetByID(id).LastName;
+            customerVM.Email = repo.GetByID(id).Email;
+
+            return View(customerVM);
         }
 
         // POST: AdminCustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind(include: "FirstName, LastName, Email")] Customer customer)
+        public ActionResult Edit(CustomerEditViewModel customerVM)
         {
             try
             {
+                var customer = repo.GetByID(customerVM.Id);
+                if (customer == null)
+                {
+                    return NotFound();
+                } 
+
                 if (!ModelState.IsValid)
                 {
+                    ViewBag.Message = "Failed to update!";
                     return View();
                 }
 
-
-                var customerId = repo.GetByID(id);
-                customerId.FirstName = customer.FirstName;
-                customerId.LastName = customer.LastName;
-                customerId.Email = customer.Email;
-
+                
+                customer.FirstName = customerVM.FirstName;
+                customer.LastName = customerVM.LastName;
+                customer.Email = customerVM.Email;
 
 
-                repo.Update(customerId);
-                return RedirectToAction("DisplayCustomers");
+
+                repo.Update(customer);
+                ViewBag.Message = "Successfully updated!";
+                return View(customerVM);
 
             }
             catch
