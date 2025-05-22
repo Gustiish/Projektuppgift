@@ -37,16 +37,21 @@ namespace Projektuppgift.Controllers
 
         // POST: AdminCustomerController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(include: ("FirstName, LastName, Email, Password"))] Customer customer)
+      
+        public ActionResult Create([Bind(include: "FirstName, LastName, Email, Password")] Customer customer)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     repo.Add(customer);
+                    return RedirectToAction("DisplayCustomers");
                 }
-                return RedirectToAction("DisplayCustomers");
+                else
+                {
+                    ViewBag.Message = "All forms must be filled";
+                    return View(customer);
+                }
             }
             catch
             {
@@ -126,12 +131,17 @@ namespace Projektuppgift.Controllers
             {
                 var customer = repo.GetByID(id);
                 repo.Delete(customer);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DisplayCustomers");
             }
             catch
             {
                 return View();
             }
+        }
+
+        public ActionResult DisplayOptions()
+        {
+            return View();
         }
     }
 }

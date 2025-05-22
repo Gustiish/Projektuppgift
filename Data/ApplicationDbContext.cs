@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Projektuppgift.Models;
+using Projektuppgift.ViewModels;
 
 namespace Projektuppgift.Data
 {
@@ -14,6 +15,7 @@ namespace Projektuppgift.Data
         {
             
         }
+       
 
 
 

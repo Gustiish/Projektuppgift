@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projektuppgift.Data;
 
@@ -11,9 +12,11 @@ using Projektuppgift.Data;
 namespace Projektuppgift.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250521121458_set isbooked to false as default")]
+    partial class setisbookedtofalseasdefault
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +68,6 @@ namespace Projektuppgift.Migrations
 
                     b.Property<int?>("CustomerOrderId")
                         .HasColumnType("int");
-
-                    b.PrimitiveCollection<string>("Image")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsBooked")
                         .HasColumnType("bit");
@@ -146,6 +146,28 @@ namespace Projektuppgift.Migrations
                     b.ToTable("CustomerOrders");
                 });
 
+            modelBuilder.Entity("Projektuppgift.Models.Image", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("Image");
+                });
+
             modelBuilder.Entity("Projektuppgift.Models.CarRental", b =>
                 {
                     b.HasOne("Projektuppgift.Models.CustomerOrder", "CustomerOrder")
@@ -162,6 +184,22 @@ namespace Projektuppgift.Migrations
                         .HasForeignKey("Projektuppgift.Models.Customer", "CustomerOrderId");
 
                     b.Navigation("CustomerOrder");
+                });
+
+            modelBuilder.Entity("Projektuppgift.Models.Image", b =>
+                {
+                    b.HasOne("Projektuppgift.Models.CarRental", "Car")
+                        .WithMany("Image")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("Projektuppgift.Models.CarRental", b =>
+                {
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Projektuppgift.Models.CustomerOrder", b =>

@@ -18,17 +18,10 @@ namespace Projektuppgift
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             //Möjliggör för session
-            builder.Services.AddDistributedMemoryCache();
-
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
-
+            
             //Generell metod för att lägga till repos.
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            
 
           
 
@@ -49,7 +42,7 @@ namespace Projektuppgift
 
             app.UseAuthorization();
 
-            app.UseSession();
+            
 
             app.MapControllerRoute(
                 name: "default",
