@@ -5,6 +5,7 @@ using NuGet.Protocol.Core.Types;
 using Projektuppgift.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Projektuppgift.ViewModels;
+using AutoMapper;
 
 namespace Projektuppgift.Controllers
 {
@@ -12,11 +13,12 @@ namespace Projektuppgift.Controllers
     {
         private readonly IGenericRepository<CarRental> repo;
         private readonly CarService carService = new CarService(); //lägga till via DI??
+        private readonly IMapper mapper;
 
-        public AdminCarController(IGenericRepository<CarRental> repository)
+        public AdminCarController(IGenericRepository<CarRental> repository, IMapper mapper)
         {
             repo = repository;
-          
+            this.mapper = mapper;
         }
 
         public ActionResult DisplayCars()
@@ -35,7 +37,7 @@ namespace Projektuppgift.Controllers
 
 
         [HttpPost]
-        public ActionResult Create(CarCreateViewModel modelVM)
+        public ActionResult Create([Bind("Model, Brand, Images")]CarCreateViewModel modelVM)
         {
             modelVM.BrandList = new SelectList(CarService.Cars.Keys, modelVM.Brand);
 
@@ -52,13 +54,24 @@ namespace Projektuppgift.Controllers
 
             if (ModelState.IsValid)
             {
-                
-                
+                CarRental newCar = mapper.Map<CarRental>(modelVM);
+                repo.Add(newCar);
+                return RedirectToAction("DisplayCars");
 
                 
             }
+            foreach (var key in ModelState.Keys)
+            {
+                var state = ModelState[key];
+                foreach (var error in state.Errors)
+                {
+                    Console.WriteLine($"{key}: {error.ErrorMessage}");
+                }
+            }
 
-            return View();
+
+
+            return View(modelVM);
 
 
 

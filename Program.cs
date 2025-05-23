@@ -17,13 +17,14 @@ namespace Projektuppgift
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAutoMapper(typeof(Program));
             //Möjliggör för session
-            
+
             //Generell metod för att lägga till repos.
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            
 
-          
+
+
 
             var app = builder.Build();
 
@@ -42,7 +43,7 @@ namespace Projektuppgift
 
             app.UseAuthorization();
 
-            
+
 
             app.MapControllerRoute(
                 name: "default",
