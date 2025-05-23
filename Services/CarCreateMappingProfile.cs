@@ -4,9 +4,9 @@ using Projektuppgift.ViewModels;
 
 namespace Projektuppgift.Services
 {
-    public class MappingProfile : Profile
+    public class CarCreateMappingProfile : Profile
     {
-        public MappingProfile()
+        public CarCreateMappingProfile()
         {
             CreateMap<CarCreateViewModel, CarRental>()
                 .ForMember(s => s.Brand, opt => opt.MapFrom(s => s.Brand))
@@ -14,6 +14,8 @@ namespace Projektuppgift.Services
                 .ForMember(s => s.Image, opt => opt.MapFrom(s => s.Images))
                 .ReverseMap();
         }
+
+        
 
 
     }

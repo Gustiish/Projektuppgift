@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Projektuppgift.Data;
 using Projektuppgift.Models;
@@ -22,7 +23,7 @@ namespace Projektuppgift.Controllers
         }
 
 
-
+        
         public ActionResult Login(string email, string password)
         {
             IEnumerable<Admin> adminData = admin.GetAll();

@@ -12,9 +12,6 @@ namespace Projektuppgift.ViewModels
         public string Model { get; set; }
         public List<string> Images { get; set; }
 
-        [BindNever]
-        public SelectList BrandList { get; set; }
-        [BindNever]
-        public SelectList ModelList { get; set; }
+        
     }
 }

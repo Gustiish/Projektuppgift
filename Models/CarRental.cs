@@ -10,7 +10,7 @@ public class CarRental: IEntity
     public string Model { get; set; }
 
     public bool IsBooked { get; set; } = false;
-    public List<string>? Image { get; set; }
+    public List<string> Image { get; set; }
     public CustomerOrder? CustomerOrder { get; set; }
     [ForeignKey("CustomerOrder")]
     public int? CustomerOrderId { get; set; }

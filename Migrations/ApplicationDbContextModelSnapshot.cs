@@ -67,6 +67,7 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("int");
 
                     b.PrimitiveCollection<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsBooked")

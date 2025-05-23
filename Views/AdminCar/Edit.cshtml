@@ -1,0 +1,69 @@
+﻿
+@model Projektuppgift.ViewModels.CarEditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>CarRental</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label">@Model.Brand</label>
+                <select asp-for="Brand" class="form-control" asp-items="ViewBag.Brands" onchange="this.form.submit()">
+                    <option value="">Update Brand</option>
+                </select>
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model" class="control-label">@Model.Model</label>
+                <select asp-for="Model" class="form-control" asp-items="ViewBag.Models">
+                    <option value="">@Model.Model</option>
+                </select>
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsBooked" /> @Html.DisplayNameFor(model => model.IsBooked)
+                </label>
+            </div>
+            <div class="form-group">
+                <div id="imageTextField">
+
+
+                </div>
+                <button type="button" onclick()></button>
+               
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerOrderId" class="control-label"></label>
+                <select asp-for="CustomerOrderId" class="form-control" asp-items="ViewBag.CustomerOrderId"></select>
+                <span asp-validation-for="CustomerOrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="DisplayCars">Back to List</a>
+</div>
+<div>
+    @foreach (var img in Model.Images)
+    {
+        <img src="@img" width="200" height="100">
+    }
+</div>
+
+@section JavaScript{
+
+}

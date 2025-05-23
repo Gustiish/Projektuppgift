@@ -12,15 +12,15 @@ using Projektuppgift.Data;
 namespace Projektuppgift.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250514115013_added isloggedin")]
-    partial class addedisloggedin
+    [Migration("20250523122951_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -40,9 +40,6 @@ namespace Projektuppgift.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsLoggedIn")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -69,6 +66,13 @@ namespace Projektuppgift.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CustomerOrderId")
+                        .HasColumnType("int");
+
+                    b.PrimitiveCollection<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsBooked")
                         .HasColumnType("bit");
 
@@ -77,6 +81,10 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerOrderId")
+                        .IsUnique()
+                        .HasFilter("[CustomerOrderId] IS NOT NULL");
 
                     b.ToTable("Cars");
                 });
@@ -89,6 +97,9 @@ namespace Projektuppgift.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CustomerOrderId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -96,9 +107,6 @@ namespace Projektuppgift.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsLoggedIn")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -109,6 +117,10 @@ namespace Projektuppgift.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerOrderId")
+                        .IsUnique()
+                        .HasFilter("[CustomerOrderId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -121,7 +133,7 @@ namespace Projektuppgift.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarId")
+                    b.Property<int>("CarRentalId")
                         .HasColumnType("int");
 
                     b.Property<int>("CustomerId")
@@ -135,68 +147,34 @@ namespace Projektuppgift.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("CustomerId");
-
                     b.ToTable("CustomerOrders");
-                });
-
-            modelBuilder.Entity("Projektuppgift.Models.Image", b =>
-                {
-                    b.Property<int>("ImageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ImageId");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("Image");
-                });
-
-            modelBuilder.Entity("Projektuppgift.Models.CustomerOrder", b =>
-                {
-                    b.HasOne("Projektuppgift.Models.CarRental", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Projektuppgift.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("Projektuppgift.Models.Image", b =>
-                {
-                    b.HasOne("Projektuppgift.Models.CarRental", "Car")
-                        .WithMany("Image")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("Projektuppgift.Models.CarRental", b =>
                 {
-                    b.Navigation("Image");
+                    b.HasOne("Projektuppgift.Models.CustomerOrder", "CustomerOrder")
+                        .WithOne("Car")
+                        .HasForeignKey("Projektuppgift.Models.CarRental", "CustomerOrderId");
+
+                    b.Navigation("CustomerOrder");
+                });
+
+            modelBuilder.Entity("Projektuppgift.Models.Customer", b =>
+                {
+                    b.HasOne("Projektuppgift.Models.CustomerOrder", "CustomerOrder")
+                        .WithOne("Customer")
+                        .HasForeignKey("Projektuppgift.Models.Customer", "CustomerOrderId");
+
+                    b.Navigation("CustomerOrder");
+                });
+
+            modelBuilder.Entity("Projektuppgift.Models.CustomerOrder", b =>
+                {
+                    b.Navigation("Car")
+                        .IsRequired();
+
+                    b.Navigation("Customer")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
