@@ -52,9 +52,7 @@ namespace Projektuppgift.Controllers
             {
                 ViewBag.ModelList = new SelectList(new List<string>());
             }
-
             
-
             if (ModelState.IsValid)
             {
                 CarRental newCar = CreateMapper.Map<CarRental>(modelVM);
@@ -63,7 +61,6 @@ namespace Projektuppgift.Controllers
 
                 
             }
-           
 
             return View(modelVM);
         }
