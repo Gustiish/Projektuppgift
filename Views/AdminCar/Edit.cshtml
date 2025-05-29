@@ -1,5 +1,4 @@
-﻿
-@model Projektuppgift.ViewModels.CarEditViewModel
+﻿@model Projektuppgift.ViewModels.CarEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -33,15 +32,11 @@
                     <input class="form-check-input" asp-for="IsBooked" /> @Html.DisplayNameFor(model => model.IsBooked)
                 </label>
             </div>
+
             <div class="form-group">
-                
-                
-                   <input type="text" name="imageAdress" placeholder="Add link here"/>
-
-
-            
-                <button type="button" id="AddImage">Add Image</button><button type="button" id="removeImage">Remove Image</button>
-               
+                <div id=imageStrings>
+                    <button type="button" id="AddImage">Add Image</button>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="CustomerOrderId" class="control-label"></label>
@@ -60,14 +55,57 @@
     <a asp-action="DisplayCars">Back to List</a>
 </div>
 <div>
-    @foreach (var img in Model.Images)
+    @if (Model.Images != null)
     {
-        <img src="@img" width="200" height="100">
+        foreach (var img in Model.Images)
+        {
+            <img src="@img" width="200" height="100">
+        }
     }
+
+    
 </div>
 
-@section JavaScript{
+@section Scripts {
     <script>
+            let list = []
 
+            function renderItems() {
+                const container = document.getElementById("imageStrings")
+                container.innerHtml = "";
+
+                list.forEach((image, index) => {
+                    const div = document.createElement("div");
+                    div.innerHtml = `
+                        <input type="text" value="${image}" onchange="updateItem(${index}, this.value)" />
+                        <button type="button" onclick="removeItem(${index})">Ta bort</button>
+                    `;
+                    container.appendChild(div);
+                }
+            }
+
+
+            function updateItem(item, value) {
+                list[index] = value;
+
+            }
+
+            function addItem() {
+                list.push = "";
+                renderItems();
+            }
+
+            function removeItem(item) {
+                list.splice(item, 1);
+                renderItems();
+            }
+
+            window.onload = function () {
+                @foreach (var image in Model.Images)
+                {
+                    @:list.push("@image")
+                }
+            renderItems();
+            }
     </script>
 }
