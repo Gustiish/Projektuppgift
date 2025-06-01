@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Projektuppgift.ViewModels;
 using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
 
 namespace Projektuppgift.Controllers
 {
@@ -40,7 +41,7 @@ namespace Projektuppgift.Controllers
 
 
         [HttpPost]
-        public ActionResult Create([Bind("Model, Brand, Images")]CarCreateViewModel modelVM)
+        public ActionResult Create([Bind("Model, Brand, Images")] CarCreateViewModel modelVM)
         {
             ViewBag.BrandList = new SelectList(CarService.Cars.Keys, modelVM.Brand);
 
@@ -52,14 +53,14 @@ namespace Projektuppgift.Controllers
             {
                 ViewBag.ModelList = new SelectList(new List<string>());
             }
-            
+
             if (ModelState.IsValid)
             {
                 CarRental newCar = CreateMapper.Map<CarRental>(modelVM);
                 repo.Add(newCar);
                 return RedirectToAction("DisplayCars");
 
-                
+
             }
 
             return View(modelVM);
@@ -77,10 +78,11 @@ namespace Projektuppgift.Controllers
                 return NotFound();
             }
 
-            CarEditViewModel modelVM = EditMapper.Map<CarEditViewModel>(repo.GetByID(id));
+            var CarData = CarService.Cars;
+            ViewBag.CarData = JsonSerializer.Serialize(CarData);
 
-            ViewBag.Brands = new SelectList(CarService.Cars.Keys);
-            ViewBag.Models = new SelectList(new List<string>());
+
+            CarEditViewModel modelVM = EditMapper.Map<CarEditViewModel>(repo.GetByID(id));
 
 
             return View(modelVM);
@@ -91,32 +93,16 @@ namespace Projektuppgift.Controllers
         [HttpPost]
         public ActionResult Edit(CarEditViewModel car)
         {
-            ViewBag.BrandList = new SelectList(CarService.Cars.Keys, car.Brand);
-
-            if (CarService.Cars.ContainsKey(car.Brand))
-            {
-                ViewBag.ModelList = new SelectList(CarService.Cars[car.Brand]);
-            }
-            else
-            {
-                ViewBag.ModelList = new SelectList(new List<string>());
-            }
-
-            
-
+           
 
             if (ModelState.IsValid)
             {
-                
                 CarRental carRental = EditMapper.Map<CarRental>(car);
                 repo.Update(carRental);
                 return RedirectToAction("DisplayCars");
             }
 
             return View(car);
-
-
-            
 
 
         }
